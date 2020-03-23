@@ -78,3 +78,18 @@ r = move(100,100,60,math.pi / 6)
 print(r)
 # 原来返回值是一个tuple!但是，在语法上，返回一个tuple可以省略括号，而多个变量可以同时接收一个tuple，按位置赋给对应的值，
 #　所以，python的函数返回多值其实就是返回一个tuple，但写起来更方便。
+
+# 定义函数时，需要确定函数名和参数个数
+# 如果有必要，可以先对参数的数据类型做检查
+# 函数体内部可以用 return 随时返回函数结果
+# 函数执行完毕也没有 return 语句时，自动 return None
+# 函数可以同时返回多个值，但其实就是一个tuple
+
+# 练习
+# 请定义一个函数quadratic(a, b, c)，接收3个参数，返回一元二次方程 ax2+bx+c=0ax^2+bx+c=0ax2+bx+c=0 的两个解。
+import math
+def quadratic(a,b,c):
+    g= (-b +- math.sqrt(b*b-4*a*c))/2*a
+    return g
+D = quadratic(2,4,6)
+print(D)
