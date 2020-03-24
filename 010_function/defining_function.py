@@ -89,7 +89,14 @@ print(r)
 # 请定义一个函数quadratic(a, b, c)，接收3个参数，返回一元二次方程 ax2+bx+c=0ax^2+bx+c=0ax2+bx+c=0 的两个解。
 import math
 def quadratic(a,b,c):
-    g= (-b +- math.sqrt(b*b-4*a*c))/2*a
+    #g= (-b +- math.sqrt(b*b-4*a*c))/2*a
+    d = math.sqrt(b*b - 4*a*c)
+    if d == 0:
+        print("此方程无解！")
+    elif d > 0:
+        g = (-b - d)/2*a
+    else:
+        g = (-b + d)/2*a
     return g
-D = quadratic(2,4,6)
-print(D)
+F = quadratic(2,4,6)
+print(F)
