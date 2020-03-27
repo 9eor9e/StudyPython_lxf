@@ -155,4 +155,65 @@ print(calc(*nums))
 # *nums 表示把 nums 这个 list 的所有元素作为可变参数传进去。这种写法相当有用，而且很常见！！！
 
 # 关键字参数
+# 关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个dict。
+def person(name,age,**kw):
+    print('name:',name,'age:',age,'other:',kw)
+# 函数 person 除了必选参数 name 和 age 外，还接受关键字参数 kw。在调用该函数时，可以只传入必选参数
+print(person('Michael',30))
+# 也可以传入任意个数的关键字参数
+print(person('Bob',35,city='Beijing'))
+print(person('Adam',45,gender='M',job='Engineer'))
+# 关键字参数可以扩展函数的功能。比如，在 person 函数里，我们保证能接收到 name 和 age 这两个参数，
+# 但是，如果调用者愿意提供更多的参数，我们也能收到。试想你正在做一个用户注册的功能，除了用户名和
+# 年龄是必填项外，其他都是可选项，利用关键字参数来定义这个函数就能满足注册的需求。
 
+# 和可变参数类似，也可以先组装出一个dict，然后，把该dict转换为关键字参数传进去：
+extra = {'city':'Beijing','job':'Engineer'}
+print(person('Jack',24,city=extra['city'],job=extra['job']))
+# 上面复杂的调用可以用简化的写法：
+extra = {'city':'Beijing','job':'Engineer'}
+print(person('Jack',24,**extra))
+# **extra 表示把 extra 这个dict的所有 key-value 用关键字参数传入到函数的 **kw 参数， kw 将获得一个
+# dict ，注意 kw 获得的 dict 是 extra 的一份拷贝，对 kw 的改动不会影响到函数外的 extra 。
+
+# 命名关键字参数
+# 对于关键字参数，函数的调用者可以传入任意不受限制的关键字参数。至于到底传入了哪些，就需要在函数
+# 内部通过 kw 检查。
+# 以 person() 函数为例，我们希望检查是否有 city 和 job 参数：
+def person(name,age,**kw):
+    if 'city' in kw:
+        pass
+    if 'job' in kw:
+        pass
+    print('name:',name,'age:',age,'other:',kw)
+# 但是调用者仍可以传入不受限制的关键字参数：
+person('Jack',24,city='Beijing',addr='Chaoyang',zipcode=123456)
+
+# 如果要限制关键字参数的名字，就可以用命名关键字参数，例如，只接收 city 和 job 作为关键字参数。
+# 这种方式定义的函数如下：
+def person(name,age,*,city,job):
+    print(name,age,city,job)
+# 和关键字参数 **kw 不同，命名关键字参数需要一个特殊分隔符 * ， * 后面的参数被视为命名关键字参数。
+person('Jack',24,city='Beijing',job='Engineer')
+
+### 如果函数定义中已经有了一个可变参数，后面跟着的命名关键字参数就不再需要一个特殊分隔符 * 了：
+def person(name,age,*args,city,job):
+    print(name,age,args,city,job)
+### 命名关键字参数必须传入参数名，这和位置参数不同。如果没有传入参数名，调用将报错：
+# >>> person('Jack', 24, 'Beijing', 'Engineer')
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# TypeError: person() takes 2 positional arguments but 4 were given
+### 由于调用时缺少参数名 city 和 job ，python解释器把这4个参数均视为位置参数，但 person() 函数仅接收2
+### 个位置参数。
+### 命名关键字参数可以有缺省值，从而简化调用：
+def person(name,age,*,city='Beijing',job):
+    print(name,age,city,job)
+### 由于命名关键字参数 city 具有默认值，调用时，可不传入 city 参数：
+person('Jack',24,job='Engineer')
+### 使用命名关键字参数时，要特别注意，如果没有可变参数，就必须家一个 * 作为特殊分隔符。如果缺少 * ，
+### python解释器将无法识别位置参数和命名关键字参数：
+def person(name,age,city,job):    # 缺少 * ，city和job被视为位置参数
+    pass
+
+# 参数组合
