@@ -49,3 +49,7 @@ def findMinAndMax(L):
     return (x,y)
 L = (1,2,3,4,5,6,7,8)
 print(findMinAndMax(L))
+
+# 小结
+# 任何可迭代对象都可以用作于 for 循环，包括我们自定义的数据类型，只要符合迭代条件，
+# 就可以使用 for 循环。
