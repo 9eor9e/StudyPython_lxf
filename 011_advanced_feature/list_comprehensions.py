@@ -30,4 +30,54 @@ print([d for d in os.listdir('.')]) # os.listdir 可以列出文件和目录
 d = {'x':'A','y':'B','z':'C'}
 for k,v in d.items():
     print(k,'=',v)
-#
+# 因此，列表生成式也可以使用两个变量来生成list：
+d = {'x':'A','y':'B','z':'C'}
+print([k + '=' + v for k,v in d.items()])
+
+# 把一个 list 中所有的字符串变成小写：
+L = ['Hello','World','IBM','Apple']
+print([s.lower() for s in L])
+
+# if...else
+# 使用列表生成式的时候，经常搞不清楚 if...else 的用法
+# 例如，以下代码正常输出偶数：
+print([x for x in range(1,11) if x % 2 == 0])
+# 但是，我们不能在最后的 if 加上 else :
+# print([x for x in range(1,11) if x % 2 == 0 else 0])
+# >>> [x for x in range(1, 11) if x % 2 == 0 else 0]
+#   File "<stdin>", line 1
+#     [x for x in range(1, 11) if x % 2 == 0 else 0]
+#                                               ^
+# SyntaxError: invalid syntax
+# 这是因为跟在 for 后面的 if 是一个筛选条件，不能带 else ，否则如何筛选？
+
+# 另外有人发现把 if 写在 for 前面必须加 else ,否则报错：
+# >>> [x if x % 2 == 0 for x in range(1, 11)]
+#   File "<stdin>", line 1
+#     [x if x % 2 == 0 for x in range(1, 11)]
+#                        ^
+# SyntaxError: invalid syntax
+# 这是因为 for 前面的部分是一个表达式，它必须根据 x 计算出一个结果。因此，考察表达式：
+# x if x % 2 == 0 ,它无法根据 x 计算出结果，因为缺少 else ，必须加上 else:
+print([x if x % 2 == 0 else -x for x in range(1,11)])
+# 上述 for 前面的表达式 x if x % 2 == 0 else -x 才能根据 x 计算出确定的结果。
+# 可见，在一个列表生成式中，for 前面的 if...else 是表达式，而 for 后面的 if 是过滤条件，
+# 不能带 else 。
+
+# 练习
+# 如果list中即包含字符串，又包含整数，由于非字符串类型没有 low() 方法，所以列表生成式会报错：
+# >>> L = ['Hello', 'World', 18, 'Apple', None]
+# >>> [s.lower() for s in L]
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+#   File "<stdin>", line 1, in <listcomp>
+# AttributeError: 'int' object has no attribute 'lower'
+# 使用内建的 isinstance 函数可以判断一个变量是不是字符串：
+x = 'abc'
+y = 123
+print(isinstance(x,str))
+print(isinstance(y,str))
+# 请修改列表生成式，通过添加 if 语句保证列表生成式能正确地执行：
+L1 = ['Hello','World',18,'Apple',None]
+L2 = []
+print([L1 if isinstance(L1,str) else L1.pop() for L2 in L1])
