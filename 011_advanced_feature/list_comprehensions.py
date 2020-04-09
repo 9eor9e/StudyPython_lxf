@@ -79,5 +79,5 @@ print(isinstance(x,str))
 print(isinstance(y,str))
 # 请修改列表生成式，通过添加 if 语句保证列表生成式能正确地执行：
 L1 = ['Hello','World',18,'Apple',None]
-L2 = []
-print([L1 if isinstance(L1,str) else L1.pop() for L2 in L1])
+# print([L1 if isinstance(L1,str) else L1.pop() for L2 in L1])
+print([L2 for L2 in L1 if isinstance(L2,str) == True])
